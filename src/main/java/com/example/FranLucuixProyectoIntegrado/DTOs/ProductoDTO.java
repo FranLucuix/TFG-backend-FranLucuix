@@ -17,8 +17,8 @@ public class ProductoDTO {
 
     private int idProducto;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Size(max = 100)
     private String nombre;
 
     @DecimalMin(value = "0.0",message = "No puede ser menor que 0")
@@ -32,7 +32,7 @@ public class ProductoDTO {
 
     private String descripcion;
 
-    @NotBlank
+    @NotBlank(message = "La categoría no puede estar vacía")
     private String categoria;
 
     public ProductoDTO() {}

@@ -18,9 +18,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-//    @Autowired
-//    private JpaUserDetailsService userDetailsService;
-//    
+    @Autowired
+    private JpaUserDetailsService userDetailsService;
+    
 //    
 //@Bean
 //public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -52,8 +52,8 @@ public class SecurityConfig {
 //        .httpBasic(withDefaults())
 //        .build();
 //}
-//
-//
+
+
 //
 //    @Bean
 //    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
@@ -63,17 +63,18 @@ public class SecurityConfig {
 //            .and()
 //            .build();
 //    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        
-//        return new BCryptPasswordEncoder();
-//    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        
+        return new BCryptPasswordEncoder();
+    }
 //    
     
      @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .cors(withDefaults()) 
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().permitAll()

@@ -6,7 +6,9 @@ package com.example.FranLucuixProyectoIntegrado.services;
 
 import com.example.FranLucuixProyectoIntegrado.DTOs.CarritoDTO;
 import com.example.FranLucuixProyectoIntegrado.entities.Carrito;
+import com.example.FranLucuixProyectoIntegrado.entities.Usuario;
 import com.example.FranLucuixProyectoIntegrado.repositories.ICarritoRepository;
+import com.example.FranLucuixProyectoIntegrado.repositories.IUsuarioRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,32 +26,40 @@ public class CarritoService {
     private ICarritoRepository carritoRepository;
 
     @Autowired
-    private DTOConverter dtos;
+    private DTOConverter dtoConverter;
+    
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
 
     public List<CarritoDTO> findAll() {
         List<Carrito> carritos = carritoRepository.findAll();
         List<CarritoDTO> carritosDTO = new ArrayList<>();
 
         for (Carrito c : carritos) {
-            carritosDTO.add(dtos.carritoToDTO(c));
+            carritosDTO.add(dtoConverter.carritoToDTO(c));
         }
 
         return carritosDTO;
     }
 
-    public Optional<Carrito> findById(Integer id) {
-        return carritoRepository.findById(id);
+    public CarritoDTO saveCarrito(CarritoDTO dto) {
+        Carrito carrito = dtoConverter.carritoToEntity(dto);
+
+        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
+                            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        carrito.setUsuario(usuario);
+
+        Carrito saved = carritoRepository.save(carrito);
+        return dtoConverter.carritoToDTO(saved);
     }
 
-    public Carrito save(Carrito carrito) {
-        return carritoRepository.save(carrito);
+    public CarritoDTO getCarritoById(int id) {
+        Carrito carrito = carritoRepository.findById(id)
+                            .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        return dtoConverter.carritoToDTO(carrito);
     }
-
-    public Carrito update(Carrito carrito) {
-        return carritoRepository.save(carrito);
-    }
-
-    public void deleteById(Integer id) {
+    
+     public void deleteCarrito(int id) {
         carritoRepository.deleteById(id);
     }
 }

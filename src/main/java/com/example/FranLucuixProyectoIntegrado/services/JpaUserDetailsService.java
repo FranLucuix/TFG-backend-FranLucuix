@@ -34,10 +34,12 @@ public class JpaUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-        System.out.println(" Usuario encontrado: " + usuario.getEmail());
-        System.out.println(" Contraseña en BD (encriptada): " + usuario.getPassword());
-//       System.out.println("¿Coincide con '1234'? " + passwordEncoder.matches("1234", usuario.getPassword()));
-        System.out.println("Rol asignado al usuario: ROLE_" + usuario.getRol().toUpperCase());
+        
+        
+//        System.out.println(" Usuario encontrado: " + usuario.getEmail());
+//        System.out.println(" Contraseña en BD (encriptada): " + usuario.getPassword());
+////       System.out.println("¿Coincide con '1234'? " + passwordEncoder.matches("1234", usuario.getPassword()));
+//        System.out.println("Rol asignado al usuario: ROLE_" + usuario.getRol().toUpperCase());
 
         return new User(usuario.getEmail(), usuario.getPassword(),
                 List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toUpperCase())));
