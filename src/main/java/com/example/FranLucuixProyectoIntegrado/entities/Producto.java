@@ -28,6 +28,7 @@ public class Producto {
     private int stock;
     private String descripcion;
     private String categoria;
+     private String imagenUrl;
 
     @OneToMany(mappedBy = "producto")
     private List<DetallePedido> detallesPedido;
@@ -35,7 +36,7 @@ public class Producto {
     @OneToMany(mappedBy = "producto")
     private List<CarritoProducto> carritoProductos;
 
-    public Producto(int idProducto, String nombre, double precio, double precioRebaja, int stock, String descripcion, String categoria) {
+    public Producto(int idProducto, String nombre, double precio, double precioRebaja, int stock, String descripcion, String categoria, String imagen) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.precio = precio;
@@ -43,15 +44,17 @@ public class Producto {
         this.stock = stock;
         this.descripcion = descripcion;
         this.categoria = categoria;
+        this.imagenUrl=imagen;
     }
 
-    public Producto(String nombre, double precio, double precioRebaja, int stock, String descripcion, String categoria) {
+    public Producto(String nombre, double precio, double precioRebaja, int stock, String descripcion, String categoria, String imagen) {
         this.nombre = nombre;
         this.precio = precio;
         this.precioRebaja = precioRebaja;
         this.stock = stock;
         this.descripcion = descripcion;
         this.categoria = categoria;
+        this.imagenUrl=imagen;
     }
 
     public Producto(int idProducto) {
@@ -60,6 +63,32 @@ public class Producto {
 
     public Producto() {
     }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
+    }
+
+    public List<DetallePedido> getDetallesPedido() {
+        return detallesPedido;
+    }
+
+    public void setDetallesPedido(List<DetallePedido> detallesPedido) {
+        this.detallesPedido = detallesPedido;
+    }
+
+    public List<CarritoProducto> getCarritoProductos() {
+        return carritoProductos;
+    }
+
+    public void setCarritoProductos(List<CarritoProducto> carritoProductos) {
+        this.carritoProductos = carritoProductos;
+    }
+    
+    
 
     public int getIdProducto() {
         return idProducto;

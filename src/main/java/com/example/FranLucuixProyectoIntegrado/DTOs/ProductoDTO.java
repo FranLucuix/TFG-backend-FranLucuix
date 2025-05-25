@@ -34,10 +34,12 @@ public class ProductoDTO {
 
     @NotBlank(message = "La categoría no puede estar vacía")
     private String categoria;
+    
+    private String imagenUrl;
 
     public ProductoDTO() {}
 
-    public ProductoDTO(int idProducto, String nombre, double precio, double precioRebajado, int stock, String descripcion, String categoria) {
+    public ProductoDTO(int idProducto, String nombre, double precio, double precioRebajado, int stock, String descripcion, String categoria,String imagen) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.precio = precio;
@@ -45,6 +47,7 @@ public class ProductoDTO {
         this.stock = stock;
         this.descripcion = descripcion;
         this.categoria = categoria;
+        this.imagenUrl=imagen;
     }
 
     public int getIdProducto() {
@@ -102,4 +105,13 @@ public class ProductoDTO {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
+    }
+    
 }

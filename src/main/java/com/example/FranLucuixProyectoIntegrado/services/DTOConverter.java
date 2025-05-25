@@ -39,7 +39,8 @@ public class DTOConverter {
                 producto.getPrecioRebaja(),
                 producto.getStock(),
                 producto.getDescripcion(),
-                producto.getCategoria()
+                producto.getCategoria(),
+                producto.getImagenUrl()
         );
     }
 
@@ -52,6 +53,7 @@ public class DTOConverter {
         producto.setStock(dto.getStock());
         producto.setDescripcion(dto.getDescripcion());
         producto.setCategoria(dto.getCategoria());
+        producto.setImagenUrl(dto.getImagenUrl());
         return producto;
     }
 

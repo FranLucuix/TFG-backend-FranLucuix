@@ -61,6 +61,7 @@ public class ProductoService {
         existing.setStock(dto.getStock());
         existing.setDescripcion(dto.getDescripcion());
         existing.setCategoria(dto.getCategoria());
+        existing.setImagenUrl(dto.getImagenUrl());
 
         return dtoConverter.productoToDTO(productoRepository.save(existing));
     }
