@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author francis
  */
 @RestController
-@RequestMapping("/metodosPago")
+@RequestMapping("/pagos")
 public class MetodoPagoController {
 
     @Autowired
