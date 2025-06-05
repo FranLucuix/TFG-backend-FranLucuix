@@ -17,7 +17,8 @@ public class DTOConverter {
                 usuario.getIdUsuario(),
                 usuario.getNombre(),
                 usuario.getEmail(),
-                usuario.getRol()
+                usuario.getRol(),
+                usuario.getPassword()
         );
     }
 
@@ -27,6 +28,7 @@ public class DTOConverter {
         usuario.setNombre(dto.getNombre());
         usuario.setEmail(dto.getEmail());
         usuario.setRol(dto.getRol());
+        usuario.setPassword(dto.getPassword());
         return usuario;
     }
 

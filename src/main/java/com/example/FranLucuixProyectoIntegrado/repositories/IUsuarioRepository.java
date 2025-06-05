@@ -12,6 +12,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author francis
  */
-public interface IUsuarioRepository extends JpaRepository<Usuario, Integer>{
+public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
+
+    Optional<Usuario> findByNombreOrEmail(String nombre, String email);
+
+    Optional<Usuario> findByNombre(String nombre);
+
     Optional<Usuario> findByEmail(String email);
+
 }

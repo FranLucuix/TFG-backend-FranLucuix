@@ -1,33 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.example.FranLucuixProyectoIntegrado.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import java.util.List;
+import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-/**
- *
- * @author francis
- */
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
 
-    private String nombre;
+    @Column(nullable = false, unique = true)
+    private String nombre; // username
+
+    @Column(nullable = false, unique = true)
     private String email;
-    private String password;
+    
     private String rol;
+
+    @Column(nullable = false)
+    private String password;
+
+    
+
+    @Column(nullable = false)
+    private boolean enabled = true;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Carrito carrito;
@@ -35,12 +38,14 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
 
+    // Constructores
     public Usuario(int idUsuario, String nombre, String email, String password, String rol) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.email = email;
-        this.password = password;
         this.rol = rol;
+        this.password = password;
+        
     }
 
     public Usuario(String nombre, String email, String password, String rol) {
@@ -57,24 +62,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Carrito getCarrito() {
-        return carrito;
-    }
-
-    public void setCarrito(Carrito carrito) {
-        this.carrito = carrito;
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
-    
-    
-
+    // Getters y setters
     public int getIdUsuario() {
         return idUsuario;
     }
@@ -99,6 +87,7 @@ public class Usuario {
         this.email = email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -115,26 +104,66 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Carrito getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(Carrito carrito) {
+        this.carrito = carrito;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+    // Métodos de UserDetails
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + rol.toUpperCase()));
+    }
+
+    @Override
+    public String getUsername() {
+        return nombre; // Usamos el campo "nombre" como username
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    // equals y hashCode
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + this.idUsuario;
-        return hash;
+        return Objects.hash(idUsuario);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Usuario other = (Usuario) obj;
-        return this.idUsuario == other.idUsuario;
+        if (this == obj) return true;
+        if (!(obj instanceof Usuario other)) return false;
+        return idUsuario == other.idUsuario;
     }
-
 }
