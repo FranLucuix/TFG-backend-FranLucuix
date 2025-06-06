@@ -8,6 +8,8 @@ public class FranLucuixProyectoIntegradoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FranLucuixProyectoIntegradoApplication.class, args);
+                
+                
 	}
         
         

@@ -6,10 +6,13 @@ import com.example.FranLucuixProyectoIntegrado.repositories.ICarritoRepository;
 import com.example.FranLucuixProyectoIntegrado.repositories.IUsuarioRepository;
 import com.example.FranLucuixProyectoIntegrado.services.DTOConverter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,12 +43,22 @@ public class AuthController {
     private ICarritoRepository carritoRepository;
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request) {
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            session.invalidate(); 
+            session.invalidate();
         }
-        SecurityContextHolder.clearContext(); 
+
+        SecurityContextHolder.clearContext();
+
+        ResponseCookie cookie = ResponseCookie.from("JSESSIONID", "")
+                .path("/")
+                .httpOnly(true)
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
         return ResponseEntity.ok("Sesión cerrada");
     }
 
